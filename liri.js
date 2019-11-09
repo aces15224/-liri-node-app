@@ -10,13 +10,13 @@ var term = process.argv.slice(3).join(" ");
 
 function getSpotify(){
   if(!term){
-      term="The sign"
+      term="The sign";
     }
   spotify.search({ type: 'track', query: term, limit:5})
   .then(function(response) {
      var songs = response.tracks.items;
   if(term==="The sign"){
-    console.log(term)
+    console.log(term);
       console.log("artist(s): " + songs[4].artists[0].name);
       console.log("song name: " + songs[4].name);
       console.log("preview song: " + songs[4].preview_url);
@@ -55,47 +55,34 @@ switch (search){
   break;
 }
 
-
 function doIt(){
   fs.readFile("random.txt", "utf8", function(error, data) {
-
-    // If the code experiences any errors it will log the error to the console.
     if (error) {
       return console.log(error);
     }
-  
-    // We will then print the contents of data
-    console.log(data);
-  
-    // Then split it by commas (to make it more readable)
     var dataArr = data.split(",");
-    dataSplit=dataArr.slice(1).join(" ")
-    console.log(dataSplit)
+    dataSplit=dataArr.slice(1).join(" ");
   
-    // We will then re-display the content as an array for later use.
-    spotify.search({ type: 'track', query: dataSplit })
+  spotify.search({ type: 'track', query: dataSplit, limit:1 })
   .then(function(response) {
     var songs = response.tracks.items;
 
      for (var i = 0; i < songs.length; i++) {
-      console.log(i);
       console.log("artist(s): " + songs[i].artists[0].name);
       console.log("song name: " + songs[i].name);
       console.log("preview song: " + songs[i].preview_url);
       console.log("album: " + songs[i].album.name);
       console.log("-----------------------------------");
-  }// 
-    // console.log(response.tracks.items);
+  } 
   })
   .catch(function(err) {
     console.log(err);
   });
-  
   });
-
 }
+
 function concertThis(){
-url="https://rest.bandsintown.com/artists/" + term + "/events?app_id=codingbootcamp"
+url="https://rest.bandsintown.com/artists/" + term + "/events?app_id=codingbootcamp";
 
 axios
   .get(url)
@@ -110,27 +97,22 @@ axios
     })
   .catch(function(error) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
+      
       console.log(error.response.data);
       console.log(error.response.status);
       console.log(error.response.headers);
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an object that comes back with details pertaining to the error that occurred.
       console.log(error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
     console.log(error.config);
-    
-  });
+});
 }
 
 function movieThis(){
   if(!term){
-    term="mr nobody"
+    term="mr nobody";
   }
   url="http://www.omdbapi.com/?apikey=trilogy&t="+ term +"";
   
@@ -148,27 +130,19 @@ function movieThis(){
         "Plot:" + movie.Plot,
         "Actors:" + movie.Actors
         ]
-        console.log(movieObj)
-    
-     
+        console.log(movieObj);
     })
     .catch(function(error) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       console.log(error.response.data);
       console.log(error.response.status);
       console.log(error.response.headers);
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an object that comes back with details pertaining to the error that occurred.
       console.log(error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
     console.log(error.config);
-    
-  });
+    });
 }
 
