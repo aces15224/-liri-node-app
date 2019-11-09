@@ -8,65 +8,92 @@ var spotify = new Spotify(keys.spotify);
 var search = process.argv[2];
 var term = process.argv.slice(3).join(" ");
 
-// var spotify = new Spotify({
-//   id: f7f42937ecc5405b830800729f43f11b,
-//   secret: c66d94bc9e794bdcab66002f52ddef5d
-// });
+function getSpotify(){
+  if(!term){
+      term="The sign"
+    }
+  spotify.search({ type: 'track', query: term, limit:5})
+  .then(function(response) {
+     var songs = response.tracks.items;
+  if(term==="The sign"){
+    console.log(term)
+      console.log("artist(s): " + songs[4].artists[0].name);
+      console.log("song name: " + songs[4].name);
+      console.log("preview song: " + songs[4].preview_url);
+      console.log("album: " + songs[4].album.name);
+      console.log("-----------------------------------");
+  }
+  else{
+    for (var i = 0; i < songs.length; i++) {
+      console.log(i);
+      console.log("artist(s): " + songs[i].artists[0].name);
+      console.log("song name: " + songs[i].name);
+      console.log("preview song: " + songs[i].preview_url);
+      console.log("album: " + songs[i].album.name);
+      console.log("-----------------------------------");
+  }}})
+  .catch(function(err) {
+    console.log(err);
+  });  
+}
 
 switch (search){
   case "concert-this":
   concertThis()
   break;
 
-  // case "spotify-this-song":
-  // getSpotify();
-  // break;
+  case "spotify-this-song":
+  getSpotify();
+  break;
 
   case "movie-this":
   movieThis();
   break;
 
-  // case "do-what-it-says":
-  // doIt();
-  // break;
-    
+  case "do-what-it-says":
+  doIt();
+  break;
 }
 
- 
-// Spotify.search({ type: 'track', query: 'All the Small Things' })
-//   .then(function(response) {
-//     console.log(response);
-//   })
-//   .catch(function(err) {
-//     console.log(err);
-//   });
 
+function doIt(){
+  fs.readFile("random.txt", "utf8", function(error, data) {
 
-
-// if(search==="movie-this"){
-//     url="http://www.omdbapi.com/?apikey=trilogy&t="+ term +""
-//     console.log(term)
-// }
-
-// if(search==="do-what-it-says"){
-//   fs.readFile("random.txt", "utf8", function(error, data) {
-
-//     // If the code experiences any errors it will log the error to the console.
-//     if (error) {
-//       return console.log(error);
-//     }
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
   
-//     // We will then print the contents of data
-//     console.log(data);
+    // We will then print the contents of data
+    console.log(data);
   
-//     // Then split it by commas (to make it more readable)
-//     var dataArr = data.split(",");
+    // Then split it by commas (to make it more readable)
+    var dataArr = data.split(",");
+    dataSplit=dataArr.slice(1).join(" ")
+    console.log(dataSplit)
   
-//     // We will then re-display the content as an array for later use.
-    
+    // We will then re-display the content as an array for later use.
+    spotify.search({ type: 'track', query: dataSplit })
+  .then(function(response) {
+    var songs = response.tracks.items;
+
+     for (var i = 0; i < songs.length; i++) {
+      console.log(i);
+      console.log("artist(s): " + songs[i].artists[0].name);
+      console.log("song name: " + songs[i].name);
+      console.log("preview song: " + songs[i].preview_url);
+      console.log("album: " + songs[i].album.name);
+      console.log("-----------------------------------");
+  }// 
+    // console.log(response.tracks.items);
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
   
-//   });
-// }
+  });
+
+}
 function concertThis(){
 url="https://rest.bandsintown.com/artists/" + term + "/events?app_id=codingbootcamp"
 
@@ -102,8 +129,11 @@ axios
 }
 
 function movieThis(){
-  url="http://www.omdbapi.com/?apikey=trilogy&t="+ term +""
-
+  if(!term){
+    term="mr nobody"
+  }
+  url="http://www.omdbapi.com/?apikey=trilogy&t="+ term +"";
+  
   axios
   .get(url)
   .then(function(response) {
