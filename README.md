@@ -12,15 +12,11 @@
 
 * In your command line, paste the link from the previous step to clone this repository, then install Spotify, Axios, Moment, and DotEnv packages in the newly created folder.  Specific instructions on how to install these packages can be found by following the links listed at the bottom of this page.  
 
-* Make a `.gitignore` file and add the following lines to it. This will tell git not to track these files, and thus they won't be committed to Github.
+* Edit the file named `.env` and replace the values with your own API keys.  Follow the Spotify link at the bottom of this page for information about how you can sign up for an account and obtain your API keys. 
 
-```
-node_modules
-.DS_Store
-.env
-```
+* Run the application in your command line and input one of the aformentioned phrases, followed by the search term, and press enter.  Liri will run a default search if you do not input a search term.  
 
-* Edit the file named `.env` and replace the values with your own API keys.  Follow the Spotify link at the bottom of this page for information about how you can sign up for an account and obtain your API keys.  
+* Rejoice!  The information you desire is at your finger tips!
 
 
 ## Finds songs!
@@ -49,6 +45,11 @@ node_modules
 * [OMDB API](http://www.omdbapi.com)
 
 * [Bands In Town API](http://www.artists.bandsintown.com/bandsintown-api)
+
+
+## My Role
+
+* Author of the code and content.  
 
 
    
